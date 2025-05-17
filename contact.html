@@ -155,51 +155,50 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
-            <form action="#">
-              <div class="row">
-                <div class="col-6 mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Your Name"
-                  />
-                </div>
-                <div class="col-6 mb-3">
-                  <input
-                    type="email"
-                    class="form-control"
-                    placeholder="Your Email"
-                  />
-                </div>
-                <div class="col-12 mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Subject"
-                  />
-                </div>
-                <div class="col-12 mb-3">
-                  <textarea
-                    name=""
-                    id=""
-                    cols="30"
-                    rows="7"
-                    class="form-control"
-                    placeholder="Message"
-                  ></textarea>
-                </div>
+            <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
+              <h2 class="mb-4">Get in Touch</h2> <!-- 🔹 This is the new title -->
 
-                <div class="col-12">
-                  <input
-                    type="submit"
-                    value="Send Message"
-                    class="btn btn-primary"
-                  />
+              <form id="contactForm">
+                <div class="row">
+                  <!-- Name -->
+                  <div class="col-6 mb-3">
+                    <input type="text" name="name" class="form-control" placeholder="Your Name" required />
+                  </div>
+
+                  <!-- Email -->
+                  <div class="col-6 mb-3">
+                    <input type="email" name="email" class="form-control" placeholder="Your Email" required />
+                  </div>
+
+                  <!-- Phone -->
+                  <div class="col-6 mb-3">
+                    <input type="tel" name="phone" class="form-control" placeholder="Your Phone" required />
+                  </div>
+
+                  <!-- Property Type Dropdown -->
+                  <div class="col-6 mb-3">
+                    <select name="propertyType" class="form-control" required>
+                      <option value="">Select Property Type</option>
+                      <option value="Apartment">Apartment</option>
+                      <option value="Villa">Villa</option>
+                      <option value="Townhouse">Townhouse</option>
+                      <option value="Office">Office</option>
+                    </select>
+                  </div>
+
+                  <!-- Area -->
+                  <div class="col-12 mb-3">
+                    <input type="text" name="area" class="form-control" placeholder="Preferred Area" required />
+                  </div>
+
+                  <!-- Submit -->
+                  <div class="col-12">
+                    <input type="submit" value="Send Message" class="btn btn-primary" />
+                  </div>
                 </div>
-              </div>
-            </form>
-          </div>
+              </form>
+            </div>
+
         </div>
       </div>
     </div>
@@ -325,5 +324,34 @@
     <script src="js/navbar.js"></script>
     <script src="js/counter.js"></script>
     <script src="js/custom.js"></script>
+
+    <script>
+      document.getElementById("contactForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+
+        fetch("https://hook.eu2.make.com/ch40jeus1mu7nssz1ud0kpam2dve9bnp", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((res) => {
+            if (res.ok) {
+              alert("Thank you! Your inquiry has been submitted.");
+              this.reset();
+            } else {
+              alert("Something went wrong. Please try again.");
+            }
+          })
+          .catch((err) => {
+            console.error("Submission error:", err);
+            alert("There was an error submitting the form.");
+          });
+      });
+      </script>
   </body>
 </html>
