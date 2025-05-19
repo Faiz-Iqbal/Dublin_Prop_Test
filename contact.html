@@ -158,45 +158,105 @@
             <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
               <h2 class="mb-4">Get in Touch</h2> <!-- 🔹 This is the new title -->
 
-              <form id="contactForm">
-                <div class="row">
-                  <!-- Name -->
-                  <div class="col-6 mb-3">
-                    <input type="text" name="name" class="form-control" placeholder="Your Name" required />
-                  </div>
+                <form id="contactForm">
+                  <div class="row">
+                    <!-- Name -->
+                    <div class="col-6 mb-3">
+                      <input
+                        type="text"
+                        name="name"
+                        class="form-control"
+                        placeholder="Your Name"
+                        required
+                      />
+                    </div>
 
-                  <!-- Email -->
-                  <div class="col-6 mb-3">
-                    <input type="email" name="email" class="form-control" placeholder="Your Email" required />
-                  </div>
+                    <!-- Email -->
+                    <div class="col-6 mb-3">
+                      <input
+                        type="email"
+                        name="email"
+                        class="form-control"
+                        placeholder="Your Email"
+                        required
+                      />
+                    </div>
 
-                  <!-- Phone -->
-                  <div class="col-6 mb-3">
-                    <input type="tel" name="phone" class="form-control" placeholder="Your Phone" required />
-                  </div>
+                    <!-- Phone -->
+                    <div class="col-6 mb-3">
+                      <input
+                        type="tel"
+                        name="phone"
+                        class="form-control"
+                        placeholder="Your Phone"
+                        required
+                      />
+                    </div>
 
-                  <!-- Property Type Dropdown -->
-                  <div class="col-6 mb-3">
-                    <select name="propertyType" class="form-control" required>
-                      <option value="">Select Property Type</option>
-                      <option value="Apartment">Apartment</option>
-                      <option value="Villa">Villa</option>
-                      <option value="Townhouse">Townhouse</option>
-                      <option value="Office">Office</option>
-                    </select>
-                  </div>
+                    <!-- Property Type -->
+                    <div class="col-6 mb-3">
+                      <select name="property_type" class="form-control" required>
+                        <option value="">Select Property Type</option>
+                        <option value="Apartment">Apartment</option>
+                        <option value="Villa">Villa</option>
+                        <option value="Townhouse">Townhouse</option>
+                        <option value="Office">Office</option>
+                      </select>
+                    </div>
 
-                  <!-- Area -->
-                  <div class="col-12 mb-3">
-                    <input type="text" name="area" class="form-control" placeholder="Preferred Area" required />
-                  </div>
+                    <!-- Area -->
+                    <div class="col-6 mb-3">
+                      <input
+                        type="text"
+                        name="area"
+                        class="form-control"
+                        placeholder="Preferred Area"
+                        required
+                      />
+                    </div>
 
-                  <!-- Submit -->
-                  <div class="col-12">
-                    <input type="submit" value="Send Message" class="btn btn-primary" />
+                    <!-- Budget -->
+                    <div class="col-6 mb-3">
+                      <input
+                        type="number"
+                        name="budget"
+                        class="form-control"
+                        placeholder="Budget (numeric only)"
+                        required
+                      />
+                    </div>
+
+                    <!-- Bedrooms -->
+                    <div class="col-6 mb-3">
+                      <input
+                        type="number"
+                        name="bedrooms"
+                        class="form-control"
+                        placeholder="Bedrooms"
+                        required
+                      />
+                    </div>
+
+                    <!-- Note -->
+                    <div class="col-12 mb-3">
+                      <textarea
+                        name="note"
+                        class="form-control"
+                        rows="3"
+                        placeholder="Any additional notes?"
+                      ></textarea>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="col-12">
+                      <input
+                        type="submit"
+                        value="Send Message"
+                        class="btn btn-primary"
+                      />
+                    </div>
                   </div>
-                </div>
-              </form>
+                </form>
             </div>
 
         </div>
@@ -325,33 +385,45 @@
     <script src="js/counter.js"></script>
     <script src="js/custom.js"></script>
 
-    <script>
-      document.getElementById("contactForm").addEventListener("submit", function (e) {
-        e.preventDefault();
+      <script>
+        document
+          .getElementById("contactForm")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
 
-        const formData = new FormData(this);
-        const data = Object.fromEntries(formData.entries());
+            // grab form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
 
-        fetch("https://hook.eu2.make.com/ch40jeus1mu7nssz1ud0kpam2dve9bnp", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        })
-          .then((res) => {
-            if (res.ok) {
-              alert("Thank you! Your inquiry has been submitted.");
-              this.reset();
-            } else {
-              alert("Something went wrong. Please try again.");
-            }
-          })
-          .catch((err) => {
-            console.error("Submission error:", err);
-            alert("There was an error submitting the form.");
+            // coerce numeric fields
+            data.budget = Number(data.budget);
+            data.bedrooms = Number(data.bedrooms);
+
+            // now send the exactly-shaped JSON
+            fetch("https://hook.eu2.make.com/bxsuh9bouf7j97tmrzb8i6jvq082hnqn", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            })
+              .then((res) => {
+                if (res.ok) {
+                  alert("Thank you! Your inquiry has been submitted.");
+                  this.reset();
+                } else {
+                  alert("Something went wrong. Please try again.");
+                }
+              })
+              .catch((err) => {
+                console.error("Submission error:", err);
+                alert("There was an error submitting the form.");
+              });
           });
-      });
       </script>
+
+        <!-- ElevenLabs Convai widget -->
+        <!-- <elevenlabs-convai agent-id="AEsHokGKWNV5iMBL3869"></elevenlabs-convai>
+        <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script> -->
   </body>
 </html>
