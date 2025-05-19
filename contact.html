@@ -385,42 +385,45 @@
     <script src="js/counter.js"></script>
     <script src="js/custom.js"></script>
 
-      <script>
-        document
-          .getElementById("contactForm")
-          .addEventListener("submit", function (e) {
-            e.preventDefault();
+    <script>
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
 
-            // grab form data
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData.entries());
+          // grab form data
+          const formData = new FormData(this);
+          const data     = Object.fromEntries(formData.entries());
 
-            // coerce numeric fields
-            data.budget = Number(data.budget);
-            data.bedrooms = Number(data.bedrooms);
+          // coerce numeric fields
+          data.budget   = Number(data.budget);
+          data.bedrooms = Number(data.bedrooms);
 
-            // now send the exactly-shaped JSON
-            fetch("https://hook.eu2.make.com/bxsuh9bouf7j97tmrzb8i6jvq082hnqn", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(data),
+          // add the constant caller_request
+          data.caller_request = "new_lead";
+
+          // now send the exactly-shaped JSON
+          fetch("https://hook.eu2.make.com/fh6k1kt19sm794krfdx673zm2q9yzazh", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then((res) => {
+              if (res.ok) {
+                alert("Thank you! Your inquiry has been submitted.");
+                this.reset();
+              } else {
+                alert("Something went wrong. Please try again.");
+              }
             })
-              .then((res) => {
-                if (res.ok) {
-                  alert("Thank you! Your inquiry has been submitted.");
-                  this.reset();
-                } else {
-                  alert("Something went wrong. Please try again.");
-                }
-              })
-              .catch((err) => {
-                console.error("Submission error:", err);
-                alert("There was an error submitting the form.");
-              });
-          });
-      </script>
+            .catch((err) => {
+              console.error("Submission error:", err);
+              alert("There was an error submitting the form.");
+            });
+        });
+    </script>
 
         <!-- ElevenLabs Convai widget -->
         <!-- <elevenlabs-convai agent-id="AEsHokGKWNV5iMBL3869"></elevenlabs-convai>
